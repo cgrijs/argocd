@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: gallery3-deployment
+spec:
+  selector:
+    matchLabels:
+      app: gallery3
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gallery3
+    spec:
+      containers:
+      - name: gallery3-server
+        image: bwdutton/gallery3
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: gallery-var
+          mountPath: /var/www/html/var
+      volumes:
+      - name: gallery-var
+        persistentVolumeClaim:
+          claimName: gallery-var
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gallery-var
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+  storageClassName: topolvm-provisioner
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gallery3
+spec:
+  selector:
+    app: gallery3
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+
