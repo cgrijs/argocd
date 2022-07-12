@@ -1,0 +1,32 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mariadb
+spec:
+  destination:
+    name: ''
+    namespace: mariadb
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 11.0.14
+    chart: mariadb
+    helm:
+      parameters:
+        - name: auth.rootPassword
+          value: root
+        - name: primary.service.type
+          value: LoadBalancer
+        - name: secondary.persistence.storageClass
+          value: topolvm-provisioner
+        - name: primary.persistence.storageClass
+          value: topolvm-provisioner
+        - name: global.storageClass
+          value: topolvm-provisioner
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
