@@ -9,4 +9,4 @@ spec:
   ports:
   - port: 8080
     protocol: TCP
-    targetport: 8080
+    targetPort: 8080
