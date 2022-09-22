@@ -10,7 +10,7 @@ installCRDs: true
 global:
   image:
     repository: quay.io/argoproj/argocd
-    tag: v2.0.0
+    tag: v2.4.12
     imagePullPolicy: IfNotPresent
   securityContext: {}
   #  runAsUser: 999
@@ -198,8 +198,8 @@ dex:
       enabled: false
 
   image:
-    repository: quay.io/dexidp/dex
-    tag: v2.26.0
+    repository: ghcr.io/dexidp/dex
+    tag: v2.34.0
     imagePullPolicy: IfNotPresent
   initImage:
     repository:
